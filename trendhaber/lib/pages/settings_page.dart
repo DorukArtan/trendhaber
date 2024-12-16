@@ -7,6 +7,8 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPage extends State<SettingsPage> {
+  bool _isDarkMode = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +18,7 @@ class _SettingsPage extends State<SettingsPage> {
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: () {
-              // Add your settings action here
+              // logic eklemeye gerek yok
             }
           )
         ],
@@ -26,10 +28,20 @@ class _SettingsPage extends State<SettingsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SwitchListTile(
+              title: Text('Dark Mode'),
+              value: _isDarkMode,
+              onChanged: (bool value) {
+                setState(() {
+                  _isDarkMode = value;
+                });
+              },
+            ),
+            SizedBox(height: 10),
             ListTile(
               title: Text('Contact Us'),
               onTap: () {
-                
+                // logic eklencek navigation da olur buraya QR a yönlendirmeli sayfaya gidilebilir
               },
             ),
             SizedBox(height: 10),
