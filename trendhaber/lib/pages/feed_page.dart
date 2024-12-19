@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-class FeedPage extends StatelessWidget {
+class FeedPage extends StatefulWidget {
+  @override 
+  _FeedPageState createState() => _FeedPageState();
+
   final List<Map<String, String>> newsItems = [
     {
       'title': 'News Title 1',
@@ -16,22 +19,23 @@ class FeedPage extends StatelessWidget {
       'image': 'https://via.placeholder.com/600x400',
     },
   ];
-
+}
+class _FeedPageState extends State<FeedPage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('News Feed'),
+        title: Text('News Feeds'),
       ),
       body: CarouselSlider.builder(
-        itemCount: newsItems.length,
+        itemCount: widget.newsItems.length,
         options: CarouselOptions(
           height: 400.0,
           autoPlay: true,
           enlargeCenterPage: true,
         ),
         itemBuilder: (BuildContext context, int index, int realIndex) {
-          final newsItem = newsItems[index];
+          Map<String,String> newsItem = widget.newsItems[index];
           return Container(
             width: MediaQuery.of(context).size.width,
             margin: EdgeInsets.symmetric(horizontal: 5.0),
@@ -57,4 +61,5 @@ class FeedPage extends StatelessWidget {
       ),
     );
   }
+
 }
