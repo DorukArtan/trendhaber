@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trendhaber/provider.dart';
 
-class SettingsPage extends StatefulWidget {
+class SettingsPage extends ConsumerStatefulWidget {
   const SettingsPage({super.key});
   @override  
-  State<SettingsPage> createState() => _SettingsPage();
+  _SettingsPage createState() => _SettingsPage();
 }
 
-class _SettingsPage extends State<SettingsPage> {
-  bool _isDarkMode = false;
-
+class _SettingsPage extends ConsumerState {
   @override
   Widget build(BuildContext context) {
+    bool _isDarkMode = ref.watch(darkModeProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text('Settings'),
@@ -32,9 +33,7 @@ class _SettingsPage extends State<SettingsPage> {
               title: Text('Dark Mode'),
               value: _isDarkMode,
               onChanged: (bool value) {
-                setState(() {
-                  _isDarkMode = value;
-                });
+                ref.read(darkModeProvider.notifier).state = value;
               },
             ),
             SizedBox(height: 10),

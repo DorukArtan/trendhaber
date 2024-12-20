@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:trendhaber/provider.dart';
 import 'pages/settings_page.dart';
 import 'pages/feed_page.dart'; // Import the FeedPage
 
 void main() {
-  runApp(const MyApp());
+  runApp(ProviderScope(child: const MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context,WidgetRef ref){
+    final darkMode = ref.watch(darkModeProvider);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'TrendHaber',
-      theme: ThemeData(
-        primarySwatch: Colors.pink,
-      ),
+      theme: (darkMode) ? ThemeData.dark() : ThemeData.light(),
       home: HomePage(), 
     );
   }
