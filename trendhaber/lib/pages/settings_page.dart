@@ -15,14 +15,6 @@ class _SettingsPage extends ConsumerState {
     return Scaffold(
       appBar: AppBar(
         title: Text('Settings'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              // logic eklemeye gerek yok
-            }
-          )
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

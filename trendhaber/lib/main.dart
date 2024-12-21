@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trendhaber/provider.dart';
 import 'pages/settings_page.dart';
 import 'pages/feed_page.dart'; // Import the FeedPage
+import 'pages/saved_news_page.dart';
 
 void main() {
   runApp(ProviderScope(child: const MyApp()));
@@ -33,6 +34,7 @@ class _HomePageState extends State<HomePage> {
 
   static List<Widget> _widgetOptions = <Widget>[
     FeedPage(),
+    SavedNewsPage(),
     SettingsPage(),
   ];
 
@@ -46,7 +48,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('TrendHaber'),
+        title: Text(''),
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
@@ -58,12 +60,18 @@ class _HomePageState extends State<HomePage> {
             label: 'Feed',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.bookmark),
+            label: 'Saved News',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Settings',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.pink,
+        selectedItemColor: Theme.of(context).brightness == Brightness.light
+        ? Colors.pink
+        : const Color.fromARGB(255, 52, 12, 59),
         onTap: _onItemTapped,
       ),
     );
