@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:trendhaber/news_fetcher.dart';
@@ -81,13 +80,14 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                           color: isBookmarked ? Colors.black : null,
                         ),
                         onPressed: () {
-                          ref.read(bookmarkedProvider.notifier).toggleBookmark(index);
-                          bool updatedIsBookmarked = !isBookmarked;
-                          if (!updatedIsBookmarked) {
-                            ref.read(savedNewsProvider.notifier).removeArticle(newsItem);
-                          } else {
-                            ref.read(savedNewsProvider.notifier).addArticle(newsItem);
-                          }
+                          setState(() {
+                            if (isBookmarked) {
+                              ref.read(savedNewsProvider.notifier).removeArticle(newsItem);
+                            } else {
+                              ref.read(savedNewsProvider.notifier).addArticle(newsItem);
+                            }
+                            ref.read(bookmarkedProvider.notifier).toggleBookmark(index);
+                          });
                         },
                       ),
                     ),
