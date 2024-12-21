@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trendhaber/provider.dart';
 
-class SavedNewsPage extends ConsumerWidget {
+class SavedNewsPage extends ConsumerStatefulWidget {
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final savedNews = ref.watch(savedNewsProvider);
+  _SavedNewsPageState createState() => _SavedNewsPageState();
+}
 
+class _SavedNewsPageState extends ConsumerState<SavedNewsPage> {
+  @override
+  Widget build(BuildContext context) {
+    final savedNews = ref.watch(savedNewsProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text('Saved News'),

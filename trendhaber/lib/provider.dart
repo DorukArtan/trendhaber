@@ -1,23 +1,25 @@
 import 'package:riverpod/riverpod.dart';
 import 'package:trendhaber/news_fetcher.dart';
 
-
-final darkModeProvider = StateProvider<bool>((ref){
+final darkModeProvider = StateProvider<bool>((ref) {
   return false;
 });
 
-class SavedNewsNotifier extends StateNotifier<List<Article>> {
-  SavedNewsNotifier() : super([]);
+class SavedNewsNotifier extends Notifier<List<Article>> {
+  @override
+  List<Article> build() {
+    return [];
+  }
 
   void addArticle(Article article) {
     state = [...state, article];
   }
 
   void removeArticle(Article article) {
-    state = state.where((a) => a != article).toList();
+    state = state.where((a) => a.url != article.url).toList();
   }
 }
 
-final savedNewsProvider = StateNotifierProvider<SavedNewsNotifier, List<Article>>((ref) {
+final savedNewsProvider = NotifierProvider<SavedNewsNotifier, List<Article>>(() {
   return SavedNewsNotifier();
 });
