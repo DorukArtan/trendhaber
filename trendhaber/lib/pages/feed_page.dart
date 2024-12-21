@@ -41,7 +41,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
               itemCount: newsItems.length,
               options: CarouselOptions(
                 height: 400.0,
-                autoPlay: true,
+                autoPlay: false,
                 enlargeCenterPage: true,
               ),
               itemBuilder: (BuildContext context, int index, int realIndex) {
@@ -78,7 +78,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                       child: IconButton(
                         icon: Icon(
                           isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-                          color: isBookmarked ? Colors.black : null,
+                          color: isBookmarked ? Colors.grey.shade500 : null,
                         ),
                         onPressed: () {
                           ref.read(bookmarkedProvider.notifier).toggleBookmark(index);
