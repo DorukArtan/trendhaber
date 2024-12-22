@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trendhaber/provider.dart';
+import 'package:trendhaber/pages/contact_us.dart';
 
 class SettingsPage extends ConsumerStatefulWidget {
   const SettingsPage({super.key});
@@ -8,7 +9,7 @@ class SettingsPage extends ConsumerStatefulWidget {
   _SettingsPage createState() => _SettingsPage();
 }
 
-class _SettingsPage extends ConsumerState {
+class _SettingsPage extends ConsumerState<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     bool _isDarkMode = ref.watch(darkModeProvider);
@@ -32,7 +33,10 @@ class _SettingsPage extends ConsumerState {
             ListTile(
               title: Text('Contact Us'),
               onTap: () {
-                // logic eklencek navigation da olur buraya QR a yönlendirmeli sayfaya gidilebilir
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ContactUsPage()),
+                );
               },
             ),
             SizedBox(height: 10),

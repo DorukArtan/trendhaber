@@ -39,6 +39,7 @@ dependencies:
   http: ^1.2.2
   riverpod: ^2.6.1
   flutter_riverpod: ^2.6.1
+  qr_flutter: ^4.1.0
 
 dev_dependencies:
   flutter_test:
