@@ -24,7 +24,21 @@ class _SavedNewsPageState extends ConsumerState<SavedNewsPage> {
                 return ListTile(
                   title: Text(article.title),
                   subtitle: Text(article.description),
-                  leading: Image.network(article.urlToImage),
+                  leading: FadeInImage.assetNetwork(
+                    placeholder: 'trendhaber.jpg',
+                    image: article.urlToImage,
+                    fit: BoxFit.cover,
+                    width: 50,
+                    height: 50,
+                    imageErrorBuilder: (context, error, stackTrace) {
+                      return Image.asset(
+                        'trendhaber.jpg',
+                        fit: BoxFit.cover,
+                        width: 50,
+                        height: 50,
+                      );
+                    },
+                  ),
                 );
               },
             ),

@@ -61,13 +61,13 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                       child: Column(
                         children: [
                           FadeInImage.assetNetwork(
-                            placeholder: 'assets/trendhaber.jpg',
+                            placeholder: 'trendhaber.jpg',
                             image: newsItem.urlToImage,
                             fit: BoxFit.cover,
                             height: 300,
                             imageErrorBuilder: (context, error, stackTrace) {
                               return Image.asset(
-                                'assets/trendhaber.jpg',
+                                'trendhaber.jpg',
                                 fit: BoxFit.cover,
                                 height: 300,
                               );
