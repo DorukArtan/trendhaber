@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
 import 'package:trendhaber/news_fetcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trendhaber/provider.dart';
@@ -11,19 +11,12 @@ class FeedPage extends ConsumerStatefulWidget {
 }
 
 class _FeedPageState extends ConsumerState<FeedPage> {
-  List<Article> newsItems = [];
+  late Future<List<Article>> futureNews;
 
   @override
   void initState() {
     super.initState();
-    fetchNews();
-  }
-
-  void fetchNews() async {
-    List<Article> fetchedNews = await NewsFetcher().fetchTopNews();
-    setState(() {
-      newsItems = fetchedNews;
-    });
+    futureNews = NewsFetcher().fetchTopNews();
   }
 
   @override
@@ -34,9 +27,18 @@ class _FeedPageState extends ConsumerState<FeedPage> {
       appBar: AppBar(
         title: Text('News Feeds'),
       ),
-      body: newsItems.isEmpty
-          ? Center(child: CircularProgressIndicator())
-          : CarouselSlider.builder(
+      body: FutureBuilder<List<Article>>(
+        future: futureNews,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error loading news'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text('No news available'));
+          } else {
+            List<Article> newsItems = snapshot.data!;
+            return CarouselSlider.builder(
               itemCount: newsItems.length,
               options: CarouselOptions(
                 height: 400.0,
@@ -58,10 +60,18 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                       ),
                       child: Column(
                         children: [
-                          Image.network(
-                            newsItem.urlToImage,
+                          FadeInImage.assetNetwork(
+                            placeholder: 'assets/trendhaber.jpg',
+                            image: newsItem.urlToImage,
                             fit: BoxFit.cover,
                             height: 300,
+                            imageErrorBuilder: (context, error, stackTrace) {
+                              return Image.asset(
+                                'assets/trendhaber.jpg',
+                                fit: BoxFit.cover,
+                                height: 300,
+                              );
+                            },
                           ),
                           SizedBox(height: 10),
                           Text(
@@ -94,7 +104,10 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                   ],
                 );
               },
-            ),
+            );
+          }
+        },
+      ),
     );
   }
 }
