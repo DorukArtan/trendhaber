@@ -9,6 +9,9 @@ class ContactUsPage extends StatefulWidget {
 class _ContactUsPageState extends State<ContactUsPage> {
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    Color qrColor = isDarkMode ? Colors.white : Colors.black;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Contact Us'),
@@ -35,6 +38,14 @@ class _ContactUsPageState extends State<ContactUsPage> {
                       data: 'https://bento.me/doruk-artan',
                       version: QrVersions.auto,
                       size: 400.0,
+                      eyeStyle: QrEyeStyle(
+                        eyeShape: QrEyeShape.square,
+                        color: qrColor,
+                      ),
+                      dataModuleStyle: QrDataModuleStyle(
+                        dataModuleShape: QrDataModuleShape.square,
+                        color: qrColor,
+                      ),
                     ),
                   ],
                 ),
@@ -52,6 +63,14 @@ class _ContactUsPageState extends State<ContactUsPage> {
                       data: 'https://bento.me/ata-sesli',
                       version: QrVersions.auto,
                       size: 400.0,
+                      eyeStyle: QrEyeStyle(
+                        eyeShape: QrEyeShape.square,
+                        color: qrColor,
+                      ),
+                      dataModuleStyle: QrDataModuleStyle(
+                        dataModuleShape: QrDataModuleShape.square,
+                        color: qrColor,
+                      ),
                     ),
                   ],
                 ),
