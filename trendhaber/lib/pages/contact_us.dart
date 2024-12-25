@@ -9,6 +9,7 @@ class ContactUsPage extends StatefulWidget {
 class _ContactUsPageState extends State<ContactUsPage> {
   @override
   Widget build(BuildContext context) {
+    //for QR colors to be able to change
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     Color qrColor = isDarkMode ? Colors.white : Colors.black;
 
@@ -22,6 +23,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
           children: [
             Spacer(), 
             Row(
+              //to make QR's centered
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -35,6 +37,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
                         ),
                     ),
                     QrImageView(
+                      //Flutter automatically converts URL's into QR with specific dependencies
                       data: 'https://bento.me/doruk-artan',
                       version: QrVersions.auto,
                       size: 400.0,

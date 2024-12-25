@@ -17,6 +17,7 @@ class _NewsPageState extends State<NewsPage> {
       appBar: AppBar(
         title: Text(widget.article.title),
       ),
+      //Adjustments
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -25,6 +26,7 @@ class _NewsPageState extends State<NewsPage> {
             Container(
               width: MediaQuery.of(context).size.width * 0.9, 
               child: FadeInImage.assetNetwork(
+                //Our logo
                 placeholder: 'trendhaber.jpg',
                 image: widget.article.urlToImage,
                 fit: BoxFit.contain,
@@ -32,6 +34,7 @@ class _NewsPageState extends State<NewsPage> {
                 imageErrorBuilder: (context, error, stackTrace) {
                   return Image.asset(
                     'trendhaber.jpg',
+                    //Adjustments for logo
                     fit: BoxFit.contain,
                     height: 200,
                   );
@@ -50,6 +53,7 @@ class _NewsPageState extends State<NewsPage> {
             ),
             SizedBox(height: 16),
             Expanded(
+              //To be able to scroll we need SingleChildScrollView
               child: SingleChildScrollView(
                 child: Text(
                   widget.article.description,

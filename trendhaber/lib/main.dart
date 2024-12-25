@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trendhaber/provider.dart';
 import 'pages/settings_page.dart';
-import 'pages/feed_page.dart'; // Import the FeedPage
+import 'pages/feed_page.dart';
 import 'pages/saved_news_page.dart';
 
 void main() {
@@ -33,6 +33,7 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   static List<Widget> _widgetOptions = <Widget>[
+    //To be able to see pages on the bottom navigation bar
     FeedPage(),
     SavedNewsPage(),
     SettingsPage(),
@@ -70,6 +71,7 @@ class _HomePageState extends State<HomePage> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Theme.of(context).brightness == Brightness.light
+        //For colors of the bottom navigation bar
         ? Colors.pink
         : const Color.fromARGB(255, 52, 12, 59),
         onTap: _onItemTapped,

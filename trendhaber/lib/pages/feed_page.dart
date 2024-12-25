@@ -32,6 +32,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
         future: futureNews,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
+            //For loading 
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error loading news'));
@@ -42,6 +43,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
             return CarouselSlider.builder(
               itemCount: newsItems.length,
               options: CarouselOptions(
+                //To adjust the news cards
                 height: 400.0,
                 autoPlay: false,
                 enlargeCenterPage: true,
@@ -64,6 +66,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                         width: MediaQuery.of(context).size.width * 0.6,
                         margin: EdgeInsets.symmetric(horizontal: 5.0),
                         decoration: BoxDecoration(
+                          //For dark mode
                           color: Theme.of(context).brightness == Brightness.light
                               ? Colors.grey.shade200
                               : const Color.fromARGB(255, 16, 8, 29),
@@ -96,6 +99,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                         right: 10,
                         child: IconButton(
                           icon: Icon(
+                            //To be able to change colors for dark mode
                             isBookmarked ? Icons.bookmark : Icons.bookmark_border,
                             color: isBookmarked ? Colors.grey.shade500 : null,
                           ),
