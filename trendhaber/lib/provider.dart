@@ -19,7 +19,6 @@ class SavedNewsNotifier extends Notifier<List<Article>> {
     state = state.where((a) => a.url != article.url).toList();
   }
 }
-
 final savedNewsProvider = NotifierProvider<SavedNewsNotifier, List<Article>>(() {
   return SavedNewsNotifier();
 });
