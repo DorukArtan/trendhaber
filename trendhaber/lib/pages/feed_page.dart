@@ -1,10 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:trendhaber/models/article.dart';
 import 'package:trendhaber/news_fetcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trendhaber/provider.dart';
 import 'package:trendhaber/providers/bookmark_provider.dart';
-import 'package:trendhaber/pages/news_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FeedPage extends ConsumerStatefulWidget {
   @override 
@@ -32,7 +33,6 @@ class _FeedPageState extends ConsumerState<FeedPage> {
         future: futureNews,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            //For loading 
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error loading news'));
@@ -43,7 +43,6 @@ class _FeedPageState extends ConsumerState<FeedPage> {
             return CarouselSlider.builder(
               itemCount: newsItems.length,
               options: CarouselOptions(
-                //To adjust the news cards
                 height: 400.0,
                 autoPlay: false,
                 enlargeCenterPage: true,
@@ -52,13 +51,13 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                 Article newsItem = newsItems[index];
                 bool isBookmarked = bookmarkedIndices.contains(index);
                 return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => NewsPage(article: newsItem),
-                      ),
-                    );
+                  onTap: () async {
+                    final url = newsItem.url;
+                    if (await canLaunch(url)) {
+                      await launch(url);
+                    } else {
+                      throw 'Could not launch $url';
+                    }
                   },
                   child: Stack(
                     children: [
@@ -66,7 +65,6 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                         width: MediaQuery.of(context).size.width * 0.6,
                         margin: EdgeInsets.symmetric(horizontal: 5.0),
                         decoration: BoxDecoration(
-                          //For dark mode
                           color: Theme.of(context).brightness == Brightness.light
                               ? Colors.grey.shade200
                               : const Color.fromARGB(255, 16, 8, 29),
@@ -99,7 +97,6 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                         right: 10,
                         child: IconButton(
                           icon: Icon(
-                            //To be able to change colors for dark mode
                             isBookmarked ? Icons.bookmark : Icons.bookmark_border,
                             color: isBookmarked ? Colors.grey.shade500 : null,
                           ),

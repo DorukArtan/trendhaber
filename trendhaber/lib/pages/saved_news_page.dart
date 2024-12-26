@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trendhaber/news_fetcher.dart';
-import 'package:trendhaber/pages/news_page.dart';
+import 'package:trendhaber/models/article.dart';
 import 'package:trendhaber/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SavedNewsPage extends ConsumerWidget {
   @override
@@ -20,33 +20,33 @@ class SavedNewsPage extends ConsumerWidget {
               itemBuilder: (context, index) {
                 Article newsItem = savedNews[index];
                 return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => NewsPage(article: newsItem),
-                      ),
-                    );
+                  onTap: () async {
+                    final url = newsItem.url;
+                    if (await canLaunch(url)) {
+                      await launch(url);
+                    } else {
+                      throw 'Could not launch $url';
+                    }
                   },
                   child: Card(
                     margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                          Image.network(
-                            newsItem.urlToImage,
-                            fit: BoxFit.cover,
-                            height: 200,
-                            width: double.infinity,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Image.asset(
-                                'trendhaber.jpg',
-                                fit: BoxFit.cover,
-                                height: 200,
-                                width: double.infinity,
-                              );
-                            },
-                          ),
+                        Image.network(
+                          newsItem.urlToImage,
+                          fit: BoxFit.cover,
+                          height: 200,
+                          width: double.infinity,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
+                              'trendhaber.jpg',
+                              fit: BoxFit.cover,
+                              height: 200,
+                              width: double.infinity,
+                            );
+                          },
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
@@ -56,7 +56,11 @@ class SavedNewsPage extends ConsumerWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text( 'No description available'),
+                          child: Text(
+                            newsItem.description.isNotEmpty
+                                ? newsItem.description
+                                : 'No description available',
+                          ),
                         ),
                       ],
                     ),

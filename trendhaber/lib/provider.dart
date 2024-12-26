@@ -1,5 +1,5 @@
 import 'package:riverpod/riverpod.dart';
-import 'package:trendhaber/news_fetcher.dart';
+import 'package:trendhaber/models/article.dart';
 
 final darkModeProvider = StateProvider<bool>((ref) {
   return false;

@@ -1,33 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-class Article {
-  final String title;
-  final String description;
-  final String url;
-  final String urlToImage;
-
-  Article({
-    required this.title,
-    required this.description,
-    required this.url,
-    required this.urlToImage,
-  });
-
-  factory Article.fromJson(Map<String, dynamic> json) {
-    return Article(
-      title: json['title'] ?? '',
-      description: json['description'] ?? '',
-      url: json['url'] ?? '',
-      urlToImage: json['urlToImage'] ?? '',
-    );
-  }
-
-  bool hasEmptyFields() {
-    return title.isEmpty || description.isEmpty || url.isEmpty || urlToImage.isEmpty;
-  }
-}
-
+import 'package:trendhaber/models/article.dart';
 class NewsFetcher {
   String apiKey = '3e388ca8855641e0ad7c19677ad937ad';
   String baseUrl = 'https://newsapi.org/v2/';
