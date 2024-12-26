@@ -27,7 +27,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('News Feeds'),
+        title: Text('Trending News'),
       ),
       body: FutureBuilder<List<Article>>(
         future: futureNews,
