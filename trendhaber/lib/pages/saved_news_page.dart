@@ -22,8 +22,8 @@ class SavedNewsPage extends ConsumerWidget {
                 return GestureDetector(
                   onTap: () async {
                     final url = newsItem.url;
-                    if (await canLaunch(url)) {
-                      await launch(url);
+                    if (await canLaunchUrl(Uri.parse(url))) {
+                      await launchUrl(Uri.parse(url));
                     } else {
                       throw 'Could not launch $url';
                     }
