@@ -43,7 +43,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
             return CarouselSlider.builder(
               itemCount: newsItems.length,
               options: CarouselOptions(
-                height: 400.0,
+                height: 650.0,
                 autoPlay: false,
                 enlargeCenterPage: true,
               ),
@@ -72,26 +72,29 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                         ),
                         child: Column(
                           children: [
-                            FadeInImage.assetNetwork(
+                            Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: FadeInImage.assetNetwork(
                               placeholder: 'trendhaber.jpg',
                               image: newsItem.urlToImage,
                               fit: BoxFit.cover,
-                              height: 300,
+                              height: 400,
                               imageErrorBuilder: (context, error, stackTrace) {
                                 return Image.asset(
                                   'trendhaber.jpg',
                                   fit: BoxFit.cover,
-                                  height: 300,
+                                  height: 400,
                                 );
                               },
                             ),
-                            SizedBox(height: 10),
+                            ),
+                            SizedBox(height: 30),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
                                 newsItem.title,
                                 style: TextStyle(
-                                  fontSize: 17.0,
+                                  fontSize: 20.0,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
