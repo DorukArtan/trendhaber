@@ -23,11 +23,11 @@ class _FeedPageState extends ConsumerState<FeedPage> {
 
   @override
   Widget build(BuildContext context) {
-    final bookmarkedIndices = ref.watch(bookmarkedProvider);
+    final bookmarkedArticles = ref.watch(savedNewsProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(''),
+        title: Text('News Feeds'),
       ),
       body: FutureBuilder<List<Article>>(
         future: futureNews,
@@ -49,7 +49,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
               ),
               itemBuilder: (BuildContext context, int index, int realIndex) {
                 Article newsItem = newsItems[index];
-                bool isBookmarked = bookmarkedIndices.contains(index);
+                bool isBookmarked = bookmarkedArticles.contains(newsItem);
                 return GestureDetector(
                   onTap: () async {
                     final url = newsItem.url;
@@ -68,7 +68,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                           color: Theme.of(context).brightness == Brightness.light
                               ? Colors.grey.shade200
                               : const Color.fromARGB(255, 16, 8, 29),
-                              borderRadius: BorderRadius.circular(10.0),
+                          borderRadius: BorderRadius.circular(10.0),
                         ),
                         child: Column(
                           children: [
@@ -86,11 +86,14 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                               },
                             ),
                             SizedBox(height: 10),
-                            Text(
-                              newsItem.title,
-                              style: TextStyle(
-                                fontSize: 17.0,
-                                fontWeight: FontWeight.bold,
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                newsItem.title,
+                                style: TextStyle(
+                                  fontSize: 17.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ],
@@ -105,14 +108,11 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                             color: isBookmarked ? Colors.grey.shade500 : null,
                           ),
                           onPressed: () {
-                            setState(() {
-                              if (isBookmarked) {
-                                ref.read(savedNewsProvider.notifier).removeArticle(newsItem);
-                              } else {
-                                ref.read(savedNewsProvider.notifier).addArticle(newsItem);
-                              }
-                              ref.read(bookmarkedProvider.notifier).toggleBookmark(index);
-                            });
+                            if (isBookmarked) {
+                              ref.read(savedNewsProvider.notifier).removeArticle(newsItem);
+                            } else {
+                              ref.read(savedNewsProvider.notifier).addArticle(newsItem);
+                            }
                           },
                         ),
                       ),
