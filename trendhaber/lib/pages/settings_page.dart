@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trendhaber/provider.dart';
+import 'package:trendhaber/providers/provider.dart';
 import 'package:trendhaber/pages/contact_us.dart';
 
 class SettingsPage extends ConsumerStatefulWidget {

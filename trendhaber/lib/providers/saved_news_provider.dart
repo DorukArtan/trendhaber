@@ -1,9 +1,5 @@
-import 'package:riverpod/riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:trendhaber/models/article.dart';
-
-final darkModeProvider = StateProvider<bool>((ref) {
-  return false;
-});
 
 class SavedNewsNotifier extends Notifier<List<Article>> {
   @override

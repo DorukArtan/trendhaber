@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:trendhaber/models/article.dart';
 import 'package:trendhaber/news_fetcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trendhaber/provider.dart';
 import 'package:trendhaber/providers/bookmark_provider.dart';
+import 'package:trendhaber/providers/saved_news_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class FeedPage extends ConsumerStatefulWidget {
@@ -49,7 +49,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
               ),
               itemBuilder: (BuildContext context, int index, int realIndex) {
                 Article newsItem = newsItems[index];
-                bool isBookmarked = bookmarkedArticles.contains(newsItem);
+                bool isBookmarked = bookmarkedArticles.any((article) => article.url == newsItem.url);
                 return GestureDetector(
                   onTap: () async {
                     final url = newsItem.url;
@@ -111,12 +111,14 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                             color: isBookmarked ? Colors.grey.shade500 : null,
                           ),
                           onPressed: () {
-                            if (isBookmarked) {
-                              ref.read(savedNewsProvider.notifier).removeArticle(newsItem);
-                            } else {
-                              ref.read(savedNewsProvider.notifier).addArticle(newsItem);
-                            }
-                            ref.read(bookmarkedProvider.notifier).toggleBookmark(index);
+                            setState(() {
+                              if (isBookmarked) {
+                                ref.read(savedNewsProvider.notifier).removeArticle(newsItem);
+                              } else {
+                                ref.read(savedNewsProvider.notifier).addArticle(newsItem);
+                              }
+                              ref.read(bookmarkedProvider.notifier).toggleBookmark(index);
+                              });
                           },
                         ),
                       ),

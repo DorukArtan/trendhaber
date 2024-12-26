@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trendhaber/provider.dart';
+import 'package:trendhaber/providers/saved_news_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SavedNewsPage extends ConsumerStatefulWidget {
@@ -28,7 +28,7 @@ class _SavedNewsPageState extends ConsumerState<SavedNewsPage> {
                   onDismissed: (direction) {
                     ref.read(savedNewsProvider.notifier).removeArticle(article);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Article removed')),
+                      SnackBar(content: Text('Article removed'),duration: Durations.medium1),
                     );
                   },
                   background: Container(
@@ -44,7 +44,7 @@ class _SavedNewsPageState extends ConsumerState<SavedNewsPage> {
                         await launchUrl(Uri.parse(url));
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Could not open the article')),
+                          SnackBar(content: Text('Could not open the article'),duration: Durations.medium1,),
                         );
                       }
                     },
@@ -74,7 +74,7 @@ class _SavedNewsPageState extends ConsumerState<SavedNewsPage> {
                         onPressed: () {
                           ref.read(savedNewsProvider.notifier).removeArticle(article);
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Article removed')),
+                            SnackBar(content: Text('Article removed'),duration: Durations.medium1),
                           );
                         },
                       ),

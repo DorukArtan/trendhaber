@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trendhaber/provider.dart';
+import 'package:trendhaber/providers/provider.dart';
 import 'pages/settings_page.dart';
 import 'pages/feed_page.dart';
 import 'pages/saved_news_page.dart';
