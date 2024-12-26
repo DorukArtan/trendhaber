@@ -113,6 +113,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                             } else {
                               ref.read(savedNewsProvider.notifier).addArticle(newsItem);
                             }
+                            ref.read(bookmarkedProvider.notifier).toggleBookmark(index);
                           },
                         ),
                       ),

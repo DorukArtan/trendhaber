@@ -16,7 +16,7 @@ class NewsFetcher {
         List<dynamic> articlesJson = jsonResponse['articles'];
         List<Article> articles = articlesJson.map((json) => Article.fromJson(json)).toList();
         articles = articles.where((article) => !article.hasEmptyFields()).toList();
-        return articles.take(100).toList();
+        return articles.take(20).toList();
       } else {
         return [];
       }
