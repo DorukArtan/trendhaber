@@ -27,7 +27,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('News Feeds'),
+        title: Text(''),
       ),
       body: FutureBuilder<List<Article>>(
         future: futureNews,
@@ -68,6 +68,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                           color: Theme.of(context).brightness == Brightness.light
                               ? Colors.grey.shade200
                               : const Color.fromARGB(255, 16, 8, 29),
+                              borderRadius: BorderRadius.circular(10.0),
                         ),
                         child: Column(
                           children: [
@@ -87,7 +88,10 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                             SizedBox(height: 10),
                             Text(
                               newsItem.title,
-                              style: TextStyle(fontSize: 16.0),
+                              style: TextStyle(
+                                fontSize: 17.0,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ],
                         ),

@@ -1,68 +1,83 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:trendhaber/models/article.dart';
 import 'package:trendhaber/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class SavedNewsPage extends ConsumerWidget {
+class SavedNewsPage extends ConsumerStatefulWidget {
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final savedNews = ref.watch(savedNewsProvider);
+  _SavedNewsPageState createState() => _SavedNewsPageState();
+}
 
+class _SavedNewsPageState extends ConsumerState<SavedNewsPage> {
+  @override
+  Widget build(BuildContext context) {
+    final savedNews = ref.watch(savedNewsProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text('Saved News'),
       ),
       body: savedNews.isEmpty
-          ? Center(child: Text('No saved news available'))
+          ? Center(child: Text('Your saved news will appear here.'))
           : ListView.builder(
               itemCount: savedNews.length,
               itemBuilder: (context, index) {
-                Article newsItem = savedNews[index];
-                return GestureDetector(
-                  onTap: () async {
-                    final url = newsItem.url;
-                    if (await canLaunchUrl(Uri.parse(url))) {
-                      await launchUrl(Uri.parse(url));
-                    } else {
-                      throw 'Could not launch $url';
-                    }
+                final article = savedNews[index];
+                return Dismissible(
+                  key: Key(article.url),
+                  direction: DismissDirection.endToStart,
+                  onDismissed: (direction) {
+                    ref.read(savedNewsProvider.notifier).removeArticle(article);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Article removed')),
+                    );
                   },
-                  child: Card(
-                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Image.network(
-                          newsItem.urlToImage,
-                          fit: BoxFit.cover,
-                          height: 200,
-                          width: double.infinity,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Image.asset(
-                              'trendhaber.jpg',
-                              fit: BoxFit.cover,
-                              height: 200,
-                              width: double.infinity,
-                            );
-                          },
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            newsItem.title,
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  background: Container(
+                    color: Colors.red,
+                    alignment: Alignment.centerRight,
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Icon(Icons.delete, color: Colors.white),
+                  ),
+                  child: GestureDetector(
+                    onTap: () async {
+                      final url = article.url;
+                      if (await canLaunch(url)) {
+                        await launch(url);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Could not open the article')),
+                        );
+                      }
+                    },
+                    child: ListTile(
+                      title: Text(article.title),
+                      subtitle: Text(article.description),
+                      leading: Container(
+                        width: 100,
+                        height: 100,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: FadeInImage.assetNetwork(
+                            placeholder: 'trendhaber.jpg',
+                            image: article.urlToImage,
+                            fit: BoxFit.cover,
+                            imageErrorBuilder: (context, error, stackTrace) {
+                              return Image.asset(
+                                'trendhaber.jpg',
+                                fit: BoxFit.cover,
+                              );
+                            },
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(
-                            newsItem.description.isNotEmpty
-                                ? newsItem.description
-                                : 'No description available',
-                          ),
-                        ),
-                      ],
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: () {
+                          ref.read(savedNewsProvider.notifier).removeArticle(article);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Article removed')),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 );
