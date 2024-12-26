@@ -40,8 +40,8 @@ class _SavedNewsPageState extends ConsumerState<SavedNewsPage> {
                   child: GestureDetector(
                     onTap: () async {
                       final url = article.url;
-                      if (await canLaunch(url)) {
-                        await launch(url);
+                      if (await canLaunchUrl(Uri.parse(url))) {
+                        await launchUrl(Uri.parse(url));
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Could not open the article')),
